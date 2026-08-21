@@ -40,6 +40,35 @@ function normalizeState(state: GameState): GameState {
   return { ...state, areas, farmers };
 }
 
+interface PendingWrite {
+  userId: string;
+  state: GameState;
+}
+
+// Serializes writes to Supabase so responses can never be applied out of order.
+// Without this, the auto-farmer's frequent background saves and a deliberate action
+// (like rebirth) can both be in flight at once as independent network requests; if the
+// older request's response lands after the newer one's, it silently overwrites fresh
+// state with stale state. Coalescing to "at most one write in flight, always for the
+// latest state" makes that impossible. A plain hoisted function (not a hook closure)
+// so it can safely recurse on its own name.
+function flushWrite(
+  writeInFlightRef: { current: boolean },
+  pendingWriteRef: { current: PendingWrite | null }
+) {
+  if (writeInFlightRef.current || !pendingWriteRef.current) return;
+  const { userId, state } = pendingWriteRef.current;
+  pendingWriteRef.current = null;
+  writeInFlightRef.current = true;
+  createClient()
+    .from("game_saves")
+    .upsert(stateToRow(userId, state))
+    .then(() => {
+      writeInFlightRef.current = false;
+      flushWrite(writeInFlightRef, pendingWriteRef);
+    });
+}
+
 function stateToRow(userId: string, state: GameState): GameSaveRow {
   return {
     user_id: userId,
@@ -137,6 +166,8 @@ export function useGameState() {
   }, [state]);
 
   const syncedUserRef = useRef<string | null>(null);
+  const writeInFlightRef = useRef(false);
+  const pendingWriteRef = useRef<PendingWrite | null>(null);
 
   useEffect(() => {
     const supabase = createClient();
@@ -151,7 +182,8 @@ export function useGameState() {
       if (existing) {
         setState(rowToState(existing as GameSaveRow));
       } else {
-        await supabase.from("game_saves").upsert(stateToRow(uid, stateRef.current));
+        pendingWriteRef.current = { userId: uid, state: stateRef.current };
+        flushWrite(writeInFlightRef, pendingWriteRef);
       }
       syncedUserRef.current = uid;
     }
@@ -181,7 +213,8 @@ export function useGameState() {
   useEffect(() => {
     window.localStorage.setItem(SAVE_KEY, JSON.stringify(state));
     if (userId && syncedUserRef.current === userId) {
-      createClient().from("game_saves").upsert(stateToRow(userId, state)).then();
+      pendingWriteRef.current = { userId, state };
+      flushWrite(writeInFlightRef, pendingWriteRef);
     }
   }, [state, userId]);
 
