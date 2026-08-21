@@ -113,7 +113,7 @@ export function Shop({ state, onBuyArea, onBuyFarmer, onBuyTool, onBuySoil, onRe
       <ShopItem
         icon="👨‍🌾"
         title="Hire Farmer"
-        description={`Auto plants & harvests one area each cycle (${state.farmers}/${state.areas})`}
+        description={`Each farmer auto-farms one area permanently (${state.farmers}/${state.areas})`}
         cost={farmerCost}
         affordable={state.coins >= farmerCost}
         disabled={farmersMaxed}

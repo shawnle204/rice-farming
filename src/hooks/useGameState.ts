@@ -237,21 +237,22 @@ export function useGameState() {
           return plot;
         });
 
+        // Each farmer is permanently assigned to exactly one area (the lowest-id areas
+        // first) — areas beyond the farmer count get no automatic help, no matter how
+        // long the game runs, unlike a shared labor pool that would eventually cycle
+        // through every unlocked area regardless of farmer count.
         let riceGained = 0;
         if (prev.farmers > 0) {
-          let actionsLeft = prev.farmers;
           const growDuration = getGrowDurationMs(prev.toolLevel);
           const yieldPerHarvest = getYieldPerHarvest(prev.soilLevel);
           plots = plots.map((plot) => {
-            if (actionsLeft <= 0 || plot.id >= prev.areas) return plot;
+            if (plot.id >= prev.farmers) return plot;
             if (plot.status === "ready") {
-              actionsLeft--;
               changed = true;
               riceGained += yieldPerHarvest;
               return { ...plot, status: "empty" as const, plantedAt: undefined, growDurationMs: undefined };
             }
             if (plot.status === "empty") {
-              actionsLeft--;
               changed = true;
               return { ...plot, status: "growing" as const, plantedAt: currentNow, growDurationMs: growDuration };
             }

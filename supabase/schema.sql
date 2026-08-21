@@ -65,3 +65,7 @@ create policy "Users can insert their own save"
 create policy "Users can update their own save"
   on public.game_saves for update
   using (auth.uid() = user_id);
+
+create policy "Users can delete their own save"
+  on public.game_saves for delete
+  using (auth.uid() = user_id);
