@@ -21,16 +21,24 @@
 
 body {
   background-color: var(--background);
-  background-image: linear-gradient(rgba(255, 251, 235, 0.86), rgba(255, 251, 235, 0.93)), url("/rice-field-bg.svg");
-  background-size: cover;
-  background-position: top center;
-  background-repeat: no-repeat;
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Fixed to the viewport (not body's own box, which grows with page content) so the
+   image always covers exactly what's visible instead of scaling against a tall page. */
+.bg-scene {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image: linear-gradient(rgba(255, 251, 235, 0.86), rgba(255, 251, 235, 0.93)), url("/rice-field-bg.svg");
+  background-size: cover;
+  background-position: top center;
+  background-repeat: no-repeat;
+}
+
 @media (prefers-color-scheme: dark) {
-  body {
+  .bg-scene {
     background-image: linear-gradient(rgba(9, 9, 11, 0.88), rgba(9, 9, 11, 0.95)), url("/rice-field-bg.svg");
   }
 }
