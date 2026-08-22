@@ -23,7 +23,7 @@ export default function RiceFarmGame() {
   const sellPrice = getSellPrice(state.rebirths);
 
   return (
-    <div className="flex flex-1 flex-col items-center bg-amber-50/40 px-4 py-8 dark:bg-zinc-950 sm:px-8">
+    <div className="flex flex-1 flex-col items-center bg-amber-50/40 px-4 py-8 dark:bg-zinc-950/85 sm:px-8">
       <main className="flex w-full max-w-3xl flex-col gap-6">
         <header className="text-center">
           <h1 className="text-3xl font-bold text-amber-950 dark:text-amber-100">
@@ -36,7 +36,7 @@ export default function RiceFarmGame() {
 
         <StatsBar state={state} />
 
-        <section className="rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
+        <section className="rounded-2xl border border-zinc-200 bg-white/90 p-4 dark:border-zinc-800 dark:bg-zinc-900/90">
           <div className="mb-3 flex items-center justify-between">
             <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
               Your Farm
@@ -58,7 +58,7 @@ export default function RiceFarmGame() {
           />
         </section>
 
-        <section className="rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
+        <section className="rounded-2xl border border-zinc-200 bg-white/90 p-4 dark:border-zinc-800 dark:bg-zinc-900/90">
           <h2 className="mb-3 text-lg font-semibold text-zinc-900 dark:text-zinc-100">
             Shop
           </h2>

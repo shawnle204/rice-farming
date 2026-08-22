@@ -17,7 +17,7 @@ export function LeaderboardList({
   currentUsername: string | null;
 }) {
   return (
-    <div className="rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
+    <div className="rounded-2xl border border-zinc-200 bg-white/90 p-4 dark:border-zinc-800 dark:bg-zinc-900/90">
       <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
         {icon} {title}
       </h2>

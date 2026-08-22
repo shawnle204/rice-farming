@@ -55,7 +55,7 @@ export default async function LeaderboardPage() {
   }));
 
   return (
-    <div className="flex flex-1 flex-col items-center bg-amber-50/40 px-4 py-8 dark:bg-zinc-950 sm:px-8">
+    <div className="flex flex-1 flex-col items-center bg-amber-50/40 px-4 py-8 dark:bg-zinc-950/85 sm:px-8">
       <main className="flex w-full max-w-5xl flex-col gap-6">
         <header className="text-center">
           <h1 className="text-3xl font-bold text-amber-950 dark:text-amber-100">🏆 Leaderboards</h1>

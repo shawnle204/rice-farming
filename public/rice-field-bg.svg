@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FEF3C7"/>
+      <stop offset="45%" stop-color="#FDE68A"/>
+      <stop offset="75%" stop-color="#FCD34D"/>
+      <stop offset="100%" stop-color="#FBBF6B"/>
+    </linearGradient>
+    <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFBEB" stop-opacity="0.95"/>
+      <stop offset="55%" stop-color="#FDE68A" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#FDE68A" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="field" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#EAB308"/>
+      <stop offset="55%" stop-color="#CA8A04"/>
+      <stop offset="100%" stop-color="#854D0E"/>
+    </linearGradient>
+
+    <g id="stalk">
+      <path d="M0,150 C -6,105 6,55 0,0" stroke="#4D7C0F" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <g fill="#F2B705">
+        <ellipse cx="3" cy="2" rx="4" ry="9" transform="rotate(24 3 2)"/>
+        <ellipse cx="-4" cy="10" rx="4" ry="9" transform="rotate(-18 -4 10)"/>
+        <ellipse cx="5" cy="18" rx="4" ry="9" transform="rotate(28 5 18)"/>
+        <ellipse cx="-3" cy="27" rx="4" ry="9" transform="rotate(-22 -3 27)"/>
+        <ellipse cx="2" cy="36" rx="4" ry="9" transform="rotate(15 2 36)"/>
+      </g>
+    </g>
+    <g id="stalkDark">
+      <path d="M0,150 C -6,105 6,55 0,0" stroke="#3F6212" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <g fill="#B45309">
+        <ellipse cx="3" cy="2" rx="4" ry="9" transform="rotate(24 3 2)"/>
+        <ellipse cx="-4" cy="10" rx="4" ry="9" transform="rotate(-18 -4 10)"/>
+        <ellipse cx="5" cy="18" rx="4" ry="9" transform="rotate(28 5 18)"/>
+        <ellipse cx="-3" cy="27" rx="4" ry="9" transform="rotate(-22 -3 27)"/>
+        <ellipse cx="2" cy="36" rx="4" ry="9" transform="rotate(15 2 36)"/>
+      </g>
+    </g>
+  </defs>
+
+  <rect x="0" y="0" width="1600" height="900" fill="url(#sky)"/>
+
+  <circle cx="800" cy="430" r="260" fill="url(#sunGlow)"/>
+  <circle cx="800" cy="430" r="95" fill="#FDE68A"/>
+
+  <path d="M0,470 L120,380 240,450 380,340 520,440 660,370 800,460 940,360 1080,450 1220,370 1360,440 1480,380 1600,460 L1600,560 0,560 Z"
+        fill="#C4B5FD" opacity="0.28"/>
+  <path d="M0,520 L150,430 320,500 480,410 650,500 820,420 1000,505 1180,415 1360,500 1600,430 L1600,600 0,600 Z"
+        fill="#A78BFA" opacity="0.22"/>
+
+  <path d="M0,560 C 100,530 180,545 260,555 C 340,565 420,540 520,550 C 620,560 700,535 800,548
+           C 900,560 980,538 1080,550 C 1180,562 1280,540 1380,552 C 1450,560 1540,548 1600,555
+           L1600,600 0,600 Z" fill="#166534"/>
+
+  <polygon points="500,590 1100,590 1560,900 40,900" fill="url(#field)"/>
+  <g stroke="#78350F" stroke-opacity="0.35" stroke-width="3" fill="none">
+    <line x1="800" y1="590" x2="800" y2="900"/>
+    <line x1="650" y1="590" x2="290" y2="900"/>
+    <line x1="950" y1="590" x2="1310" y2="900"/>
+    <line x1="560" y1="620" x2="560" y2="900" opacity="0"/>
+  </g>
+  <g stroke="#78350F" stroke-opacity="0.3" stroke-width="3" fill="none">
+    <path d="M500,590 L40,900"/>
+    <path d="M1100,590 L1560,900"/>
+    <path d="M540,660 L1470,660"/>
+    <path d="M480,750 L1530,750"/>
+    <path d="M400,840 L1610,840"/>
+  </g>
+
+  <g opacity="0.9">
+    <use href="#stalkDark" transform="translate(90,760) scale(1.3) rotate(-4)"/>
+    <use href="#stalkDark" transform="translate(230,780) scale(1.1) rotate(3)"/>
+    <use href="#stalk" transform="translate(20,820) scale(1.6) rotate(-6)"/>
+    <use href="#stalk" transform="translate(180,840) scale(1.5) rotate(5)"/>
+    <use href="#stalkDark" transform="translate(340,820) scale(1.2) rotate(-3)"/>
+    <use href="#stalk" transform="translate(350,870) scale(1.7) rotate(4)"/>
+    <use href="#stalk" transform="translate(480,850) scale(1.4) rotate(-5)"/>
+    <use href="#stalkDark" transform="translate(600,800) scale(1.1) rotate(2)"/>
+
+    <use href="#stalkDark" transform="translate(1250,770) scale(1.2) rotate(4)"/>
+    <use href="#stalk" transform="translate(1380,810) scale(1.6) rotate(-5)"/>
+    <use href="#stalk" transform="translate(1500,850) scale(1.7) rotate(3)"/>
+    <use href="#stalkDark" transform="translate(1150,800) scale(1.1) rotate(-3)"/>
+    <use href="#stalk" transform="translate(1420,880) scale(1.5) rotate(-4)"/>
+    <use href="#stalk" transform="translate(1560,830) scale(1.4) rotate(6)"/>
+    <use href="#stalkDark" transform="translate(1040,780) scale(1.0) rotate(2)"/>
+  </g>
+</svg>
