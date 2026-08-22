@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* Class-based dark mode (instead of only following the OS setting) so a manual
+   toggle can override system preference. Applied as `.dark` on <html>. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -12,11 +16,9 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
 body {
@@ -31,14 +33,13 @@ body {
   position: fixed;
   inset: 0;
   z-index: -1;
+  pointer-events: none;
   background-image: linear-gradient(rgba(255, 251, 235, 0.86), rgba(255, 251, 235, 0.93)), url("/rice-field-bg.svg");
   background-size: cover;
   background-position: top center;
   background-repeat: no-repeat;
 }
 
-@media (prefers-color-scheme: dark) {
-  .bg-scene {
-    background-image: linear-gradient(rgba(9, 9, 11, 0.5), rgba(9, 9, 11, 0.68)), url("/rice-field-bg.svg");
-  }
+.dark .bg-scene {
+  background-image: linear-gradient(rgba(9, 9, 11, 0.5), rgba(9, 9, 11, 0.68)), url("/rice-field-bg.svg");
 }

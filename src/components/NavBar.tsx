@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { logout } from "@/app/auth/actions";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { createClient } from "@/lib/supabase/server";
 
 export async function NavBar() {
@@ -30,6 +31,7 @@ export async function NavBar() {
         >
           🏆 Leaderboard
         </Link>
+        <ThemeToggle />
         {user ? (
           <>
             <span className="text-zinc-600 dark:text-zinc-400">{username ?? user.email}</span>
