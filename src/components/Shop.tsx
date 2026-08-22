@@ -7,6 +7,7 @@ import {
   getSoilCost,
   getToolCost,
   getYieldPerHarvest,
+  RICE_VALUE_BONUS_PER_REBIRTH,
 } from "@/lib/economy";
 import type { GameState } from "@/lib/gameTypes";
 
@@ -61,6 +62,7 @@ function RebirthPanel({ state, onRebirth }: { state: GameState; onRebirth: () =>
   const cost = getRebirthCost(state.rebirths);
   const eligible = state.coins >= cost && state.rice >= cost;
   const costLabel = cost.toLocaleString();
+  const riceValueBonusLabel = Math.round(RICE_VALUE_BONUS_PER_REBIRTH * 100);
 
   return (
     <div className="flex items-center justify-between rounded-xl border border-purple-300 bg-purple-50 p-3 dark:border-purple-800 dark:bg-purple-950/30">
@@ -72,7 +74,7 @@ function RebirthPanel({ state, onRebirth }: { state: GameState; onRebirth: () =>
           </div>
           <div className="text-xs text-purple-700 dark:text-purple-400">
             Costs {costLabel} coins and {costLabel} rice. Resets your farm but permanently adds +1 max
-            plot ({nextMaxPlots} total) and +4% rice value.
+            plot ({nextMaxPlots} total) and +{riceValueBonusLabel}% rice value.
           </div>
         </div>
       </div>
