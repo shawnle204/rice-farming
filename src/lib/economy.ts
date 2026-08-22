@@ -21,6 +21,7 @@ const FARMER_COST_MULT = 1.55;
 
 const REBIRTH_BASE_COST = 100_000;
 const REBIRTH_COST_MULT = 6;
+const REBIRTH_RICE_TO_COIN_RATIO = 7 / 10;
 export const RICE_VALUE_BONUS_PER_REBIRTH = 0.1;
 
 export function getMaxPlots(rebirths: number): number {
@@ -29,6 +30,10 @@ export function getMaxPlots(rebirths: number): number {
 
 export function getRebirthCost(rebirths: number): number {
   return REBIRTH_BASE_COST * Math.pow(REBIRTH_COST_MULT, rebirths);
+}
+
+export function getRebirthRiceCost(rebirths: number): number {
+  return Math.round(getRebirthCost(rebirths) * REBIRTH_RICE_TO_COIN_RATIO);
 }
 
 export function getSellPrice(rebirths: number): number {

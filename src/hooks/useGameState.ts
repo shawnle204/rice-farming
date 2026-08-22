@@ -9,6 +9,7 @@ import {
   getGrowDurationMs,
   getMaxPlots,
   getRebirthCost,
+  getRebirthRiceCost,
   getSellPrice,
   getSoilCost,
   getToolCost,
@@ -361,8 +362,9 @@ export function useGameState() {
 
   const rebirth = useCallback(() => {
     setState((prev) => {
-      const cost = getRebirthCost(prev.rebirths);
-      if (prev.coins < cost || prev.rice < cost) return prev;
+      const coinCost = getRebirthCost(prev.rebirths);
+      const riceCost = getRebirthRiceCost(prev.rebirths);
+      if (prev.coins < coinCost || prev.rice < riceCost) return prev;
       return createInitialState(prev.rebirths + 1);
     });
   }, []);

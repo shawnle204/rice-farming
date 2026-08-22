@@ -4,6 +4,7 @@ import {
   getGrowDurationMs,
   getMaxPlots,
   getRebirthCost,
+  getRebirthRiceCost,
   getSoilCost,
   getToolCost,
   getYieldPerHarvest,
@@ -61,9 +62,11 @@ function ShopItem({
 
 function RebirthPanel({ state, onRebirth }: { state: GameState; onRebirth: () => void }) {
   const nextMaxPlots = getMaxPlots(state.rebirths + 1);
-  const cost = getRebirthCost(state.rebirths);
-  const eligible = state.coins >= cost && state.rice >= cost;
-  const costLabel = cost.toLocaleString();
+  const coinCost = getRebirthCost(state.rebirths);
+  const riceCost = getRebirthRiceCost(state.rebirths);
+  const eligible = state.coins >= coinCost && state.rice >= riceCost;
+  const coinCostLabel = coinCost.toLocaleString();
+  const riceCostLabel = riceCost.toLocaleString();
   const riceValueBonusLabel = Math.round(RICE_VALUE_BONUS_PER_REBIRTH * 100);
 
   return (
@@ -75,8 +78,8 @@ function RebirthPanel({ state, onRebirth }: { state: GameState; onRebirth: () =>
             Rebirth{state.rebirths > 0 && ` (x${state.rebirths})`}
           </div>
           <div className="text-xs text-purple-700 dark:text-purple-400">
-            Costs {costLabel} coins and {costLabel} rice. Resets your farm but permanently adds +1 max
-            plot ({nextMaxPlots} total) and +{riceValueBonusLabel}% rice value.
+            Costs {coinCostLabel} coins and {riceCostLabel} rice. Resets your farm but permanently adds
+            +1 max plot ({nextMaxPlots} total) and +{riceValueBonusLabel}% rice value.
           </div>
         </div>
       </div>
