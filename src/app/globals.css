@@ -39,6 +39,6 @@ body {
 
 @media (prefers-color-scheme: dark) {
   .bg-scene {
-    background-image: linear-gradient(rgba(9, 9, 11, 0.88), rgba(9, 9, 11, 0.95)), url("/rice-field-bg.svg");
+    background-image: linear-gradient(rgba(9, 9, 11, 0.5), rgba(9, 9, 11, 0.68)), url("/rice-field-bg.svg");
   }
 }
