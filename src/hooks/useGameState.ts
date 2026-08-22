@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
+  MAX_TOOL_LEVEL,
   STARTING_AREAS,
   getAreaCost,
   getFarmerCost,
@@ -343,6 +344,7 @@ export function useGameState() {
 
   const buyTool = useCallback(() => {
     setState((prev) => {
+      if (prev.toolLevel >= MAX_TOOL_LEVEL) return prev;
       const cost = getToolCost(prev.toolLevel);
       if (prev.coins < cost) return prev;
       return { ...prev, coins: prev.coins - cost, toolLevel: prev.toolLevel + 1 };

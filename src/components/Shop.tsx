@@ -7,6 +7,8 @@ import {
   getSoilCost,
   getToolCost,
   getYieldPerHarvest,
+  MAX_TOOL_LEVEL,
+  MIN_GROW_MS,
   RICE_VALUE_BONUS_PER_REBIRTH,
 } from "@/lib/economy";
 import type { GameState } from "@/lib/gameTypes";
@@ -97,8 +99,10 @@ export function Shop({ state, onBuyArea, onBuyFarmer, onBuyTool, onBuySoil, onRe
   const soilCost = getSoilCost(state.soilLevel);
   const areasMaxed = state.areas >= maxPlots;
   const farmersMaxed = state.farmers >= state.areas;
+  const toolsMaxed = state.toolLevel >= MAX_TOOL_LEVEL;
 
   const nextGrowSec = (getGrowDurationMs(state.toolLevel + 1) / 1000).toFixed(1);
+  const minGrowSec = (MIN_GROW_MS / 1000).toFixed(1);
   const nextYield = getYieldPerHarvest(state.soilLevel + 1);
 
   return (
@@ -124,9 +128,14 @@ export function Shop({ state, onBuyArea, onBuyFarmer, onBuyTool, onBuySoil, onRe
       <ShopItem
         icon="🛠️"
         title="Better Tools"
-        description={`Faster growth — next: ${nextGrowSec}s per crop`}
+        description={
+          toolsMaxed
+            ? `Fastest possible growth reached (${minGrowSec}s per crop)`
+            : `Faster growth — next: ${nextGrowSec}s per crop`
+        }
         cost={toolCost}
         affordable={state.coins >= toolCost}
+        disabled={toolsMaxed}
         onBuy={onBuyTool}
       />
       <ShopItem

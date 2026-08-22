@@ -58,3 +58,15 @@ export function getGrowDurationMs(toolLevel: number): number {
 export function getYieldPerHarvest(soilLevel: number): number {
   return BASE_YIELD + soilLevel;
 }
+
+// The lowest tool level at which growth time has already hit MIN_GROW_MS — buying
+// tools past this point would cost coins for zero effect, so purchases cap here.
+function computeMaxToolLevel(): number {
+  let level = 0;
+  while (getGrowDurationMs(level) > MIN_GROW_MS) {
+    level++;
+  }
+  return level;
+}
+
+export const MAX_TOOL_LEVEL = computeMaxToolLevel();
