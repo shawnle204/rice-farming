@@ -81,7 +81,7 @@ export const MAX_TOOL_LEVEL = computeMaxToolLevel();
 // everyone sees rain at the same wall-clock time with no backend/cron needed.
 const RAIN_EPOCH_MS = Date.UTC(2025, 0, 1);
 const RAIN_MIN_GAP_MS = 60 * 60 * 1000;
-const RAIN_MAX_GAP_MS = 3 * 60 * 60 * 1000;
+const RAIN_MAX_GAP_MS = 2 * 60 * 60 * 1000;
 export const RAIN_DURATION_MS = 30 * 60 * 1000;
 export const RAIN_GROWTH_MULTIPLIER = 2;
 
