@@ -75,3 +75,49 @@ function computeMaxToolLevel(): number {
 }
 
 export const MAX_TOOL_LEVEL = computeMaxToolLevel();
+
+// Rain: a server-wide weather event, not per-player. Every client independently
+// computes the exact same schedule from a fixed epoch using a seeded PRNG, so
+// everyone sees rain at the same wall-clock time with no backend/cron needed.
+const RAIN_EPOCH_MS = Date.UTC(2025, 0, 1);
+const RAIN_MIN_GAP_MS = 60 * 60 * 1000;
+const RAIN_MAX_GAP_MS = 3 * 60 * 60 * 1000;
+export const RAIN_DURATION_MS = 30 * 60 * 1000;
+export const RAIN_GROWTH_MULTIPLIER = 2;
+
+function rainSeedRandom(index: number): number {
+  let seed = (index + 1) * 0x9e3779b1;
+  seed = Math.imul(seed ^ (seed >>> 16), 0x45d9f3b);
+  seed = Math.imul(seed ^ (seed >>> 16), 0x45d9f3b);
+  seed = seed ^ (seed >>> 16);
+  return (seed >>> 0) / 4294967296;
+}
+
+export interface RainStatus {
+  isRaining: boolean;
+  // If raining: when the current rain ends. If not: when the next rain starts.
+  currentIntervalEnd: number;
+}
+
+export function getRainStatus(now: number): RainStatus {
+  let cursor = RAIN_EPOCH_MS;
+  let index = 0;
+  for (let i = 0; i < 500_000; i++) {
+    const gap = RAIN_MIN_GAP_MS + rainSeedRandom(index) * (RAIN_MAX_GAP_MS - RAIN_MIN_GAP_MS);
+    const start = cursor + gap;
+    const end = start + RAIN_DURATION_MS;
+    if (now < start) {
+      return { isRaining: false, currentIntervalEnd: start };
+    }
+    if (now < end) {
+      return { isRaining: true, currentIntervalEnd: end };
+    }
+    cursor = end;
+    index++;
+  }
+  return { isRaining: false, currentIntervalEnd: now + RAIN_MIN_GAP_MS };
+}
+
+export function getGrowthRateMultiplier(now: number): number {
+  return getRainStatus(now).isRaining ? RAIN_GROWTH_MULTIPLIER : 1;
+}

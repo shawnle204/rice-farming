@@ -1,3 +1,4 @@
+import { getGrowthRateMultiplier } from "@/lib/economy";
 import type { Plot } from "@/lib/gameTypes";
 
 interface PlotGridProps {
@@ -12,12 +13,14 @@ function PlotTile({
   plot,
   unlocked,
   now,
+  rainMultiplier,
   onPlant,
   onHarvest,
 }: {
   plot: Plot;
   unlocked: boolean;
   now: number;
+  rainMultiplier: number;
   onPlant: (id: number) => void;
   onHarvest: (id: number) => void;
 }) {
@@ -44,11 +47,11 @@ function PlotTile({
   if (plot.status === "growing") {
     const progress =
       plot.plantedAt !== undefined && plot.growDurationMs
-        ? Math.min(1, (now - plot.plantedAt) / plot.growDurationMs)
+        ? Math.min(1, ((now - plot.plantedAt) * rainMultiplier) / plot.growDurationMs)
         : 0;
     return (
       <div className="flex aspect-square flex-col items-center justify-center gap-2 rounded-xl border-2 border-green-300 bg-green-50 p-2 dark:border-green-800 dark:bg-green-950/30">
-        <span className="text-2xl">🌱</span>
+        <span className="text-2xl">{rainMultiplier > 1 ? "🌧️" : "🌱"}</span>
         <div className="h-1.5 w-full overflow-hidden rounded-full bg-green-200 dark:bg-green-900">
           <div
             className="h-full bg-green-500 transition-all"
@@ -71,6 +74,7 @@ function PlotTile({
 }
 
 export function PlotGrid({ plots, areas, now, onPlant, onHarvest }: PlotGridProps) {
+  const rainMultiplier = getGrowthRateMultiplier(now);
   return (
     <div className="grid grid-cols-3 gap-3 sm:grid-cols-4">
       {plots.map((plot) => (
@@ -79,6 +83,7 @@ export function PlotGrid({ plots, areas, now, onPlant, onHarvest }: PlotGridProp
           plot={plot}
           unlocked={plot.id < areas}
           now={now}
+          rainMultiplier={rainMultiplier}
           onPlant={onPlant}
           onHarvest={onHarvest}
         />

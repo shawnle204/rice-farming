@@ -5,7 +5,17 @@ import { PlotGrid } from "@/components/PlotGrid";
 import { Shop } from "@/components/Shop";
 import { StatsBar } from "@/components/StatsBar";
 import { useGameState } from "@/hooks/useGameState";
-import { getSellPrice } from "@/lib/economy";
+import { getRainStatus, getSellPrice } from "@/lib/economy";
+
+function formatDuration(ms: number): string {
+  const totalSeconds = Math.max(0, Math.ceil(ms / 1000));
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  if (hours > 0) return `${hours}h ${minutes}m`;
+  if (minutes > 0) return `${minutes}m ${seconds}s`;
+  return `${seconds}s`;
+}
 
 export default function RiceFarmGame() {
   const {
@@ -23,6 +33,7 @@ export default function RiceFarmGame() {
   } = useGameState();
 
   const sellPrice = getSellPrice(state.rebirths);
+  const rainStatus = getRainStatus(now);
 
   const [sellAmount, setSellAmount] = useState("");
   const parsedSellAmount = Number(sellAmount);
@@ -49,6 +60,18 @@ export default function RiceFarmGame() {
             Plant, grow, and harvest rice. Sell it for coins and grow your farm.
           </p>
         </header>
+
+        <div
+          className={`rounded-xl border px-4 py-2 text-center text-sm font-medium ${
+            rainStatus.isRaining
+              ? "border-blue-300 bg-blue-50 text-blue-800 dark:border-blue-800 dark:bg-blue-950/40 dark:text-blue-200"
+              : "border-zinc-200 bg-zinc-50/80 text-zinc-600 dark:border-zinc-800 dark:bg-zinc-900/50 dark:text-zinc-400"
+          }`}
+        >
+          {rainStatus.isRaining
+            ? `🌧️ It's raining! Growth is 2x faster — ends in ${formatDuration(rainStatus.currentIntervalEnd - now)}`
+            : `☀️ Clear skies — next rain in ${formatDuration(rainStatus.currentIntervalEnd - now)}`}
+        </div>
 
         <StatsBar state={state} />
 

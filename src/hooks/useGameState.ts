@@ -7,6 +7,7 @@ import {
   getAreaCost,
   getFarmerCost,
   getGrowDurationMs,
+  getGrowthRateMultiplier,
   getMaxPlots,
   getRebirthCost,
   getRebirthRiceCost,
@@ -224,6 +225,7 @@ export function useGameState() {
     const interval = setInterval(() => {
       const currentNow = Date.now();
       setNow(currentNow);
+      const rainMultiplier = getGrowthRateMultiplier(currentNow);
       setState((prev) => {
         let changed = false;
         let plots = prev.plots.map((plot) => {
@@ -231,7 +233,7 @@ export function useGameState() {
             plot.status === "growing" &&
             plot.plantedAt !== undefined &&
             plot.growDurationMs !== undefined &&
-            currentNow - plot.plantedAt >= plot.growDurationMs
+            (currentNow - plot.plantedAt) * rainMultiplier >= plot.growDurationMs
           ) {
             changed = true;
             return { ...plot, status: "ready" as const };
